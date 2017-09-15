@@ -1,3 +1,6 @@
+from django.conf.urls import include
+
+from gw import views as gw_views
 """gwmodel URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -17,5 +20,8 @@ from django.conf.urls import url
 from django.contrib import admin
 
 urlpatterns = [
+    url(r'^$', gw_views.index, name='index'),
+
     url(r'^admin/', admin.site.urls),
+    url(r'^gw/', include('gw.urls')),
 ]

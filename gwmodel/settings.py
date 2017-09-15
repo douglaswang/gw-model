@@ -23,12 +23,23 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "z*c+=+kwvm1y&p3194wy^k@u1x%-no83nua9%fghga^4mb7n20"
 
+# Configuration handling: environment variables take precedence, falling back
+# to a .env file (configurable with DJANGO_ENV), then falling back to the
+# configured defaulpipts.
+import environ
+
+environ.Env.read_env(os.environ.get('DJANGO_ENV', '.env'))
+env = environ.Env(
+    DJANGO_DEBUG=(bool, False),
+)
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 # Application definition
 
 INSTALLED_APPS = [
+    'gw.apps.GwConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +50,7 @@ INSTALLED_APPS = [
     # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -76,13 +88,13 @@ WSGI_APPLICATION = 'gwmodel.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+import dj_database_url
 
+db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': db_from_env
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -108,8 +120,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Change 'default' database configuration with $DATABASE_URL.
-DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
