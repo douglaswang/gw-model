@@ -6,7 +6,6 @@ class GwModelForm(forms.Form):
     n = forms.IntegerField(
         label="Length of timeseries (n)",
         validators=[
-            MaxValueValidator(100),
             MinValueValidator(1)
         ]
     )
