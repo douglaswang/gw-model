@@ -3,10 +3,10 @@ from django.shortcuts import render
 from .forms import GwModelForm
 from .utils import gw_model
 import numpy as np
-
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
-
+@csrf_exempt
 def index(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':

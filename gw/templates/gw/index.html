@@ -8,8 +8,18 @@
         </div>
         {% bootstrap_messages %}
         <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% bootstrap_form form %}
+            {% bootstrap_field form.n %}
+            <fieldset>
+                <legend>Parameters</legend>
+                {% bootstrap_field form.rf %}
+                {% bootstrap_field form.sy %}
+                {% bootstrap_field form.hmin %}
+                {% bootstrap_field form.pd %}
+            </fieldset>
+            <fieldset>
+                <legend>Initial condition</legend>
+                {% bootstrap_field form.hini %}
+            </fieldset>
             {% bootstrap_button "Submit" button_type="submit" button_class="btn-primary" %}
         </form>
     </div>
